@@ -1,0 +1,44 @@
+:root {
+  --bg-light: #ffffff;
+  --bg-dark: #121212;
+  --text-light: #f1f1f1;
+  --text-dark: #121212;
+  --primary-color: #000000;
+  --accent-color: #d4af37;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: var(--bg-light);
+  color: var(--text-dark);
+}
+
+.dark-mode {
+  background-color: var(--bg-dark);
+  color: var(--text-light);
+}
+
+header {
+  background-color: var(--primary-color);
+  color: var(--accent-color);
+  padding: 1rem;
+  text-align: center;
+}
+
+.toc {
+  position: fixed;
+  top: 100px;
+  left: 10px;
+  width: 200px;
+}
+
+.content {
+  margin-left: 220px;
+  padding: 1rem;
+}
+
+video {
+  border: 2px solid var(--accent-color);
+  border-radius: 8px;
+}
