@@ -10,11 +10,14 @@ Welcome to the **Raasystem Documentation** repository — the central hub for al
 
 ## 📂 Repository Structure
 
-- 📄 **system-overview.md** — High-level architecture and system flow  
-- 📁 **contracts/** — Smart contract specs for Raaskoin, Raastoken, GoldPriceOracle  
-- 📁 **deployment/** — Infrastructure provisioning and CI/CD pipelines  
-- 📁 **ui/** — Documentation for frontend components: Raaswallet, Rabex, Raaspay  
-- 📁 **onboarding/** — Step-by-step guides for Admins and Users  
+- 📄 **index.html** — Live entrypoint to the docs site  
+- 📁 **components/** — JavaScript modules (ToC, theme toggle, search, versioning)  
+- 📁 **images/** — Logos and system diagrams  
+- 📁 **videos/** — Onboarding or explainer videos  
+- 📁 **contracts/** — Smart contract specs (e.g., Raaskoin, Raastoken, Oracle)  
+- 📁 **deployment/** — Infrastructure setup, CI/CD  
+- 📁 **ui/** — Frontend guides (Raaswallet, Rabex, Raaspay)  
+- 📁 **onboarding/** — User/Admin setup guides  
 
 ---
 
@@ -24,7 +27,7 @@ Welcome to the **Raasystem Documentation** repository — the central hub for al
 - AI-driven order book and trading intelligence  
 - Real-time gold-backed Raaskoin system  
 - Decentralized cross-border payments and remittances  
-- Secure wallet, merchant gateway, and fiat conversion tools
+- Secure wallet, merchant gateway, and fiat conversion tools  
 
 ---
 
@@ -40,7 +43,7 @@ We welcome bug fixes, feature enhancements, and improved documentation.
 
 ## 🔗 View Live Docs
 
-(Coming soon: GitHub Pages or Netlify link)
+👉 [https://raasystemecosystem.github.io/raasystem-docs/](https://raasystemecosystem.github.io/raasystem-docs/) *(coming online shortly)*
 
 ---
 
