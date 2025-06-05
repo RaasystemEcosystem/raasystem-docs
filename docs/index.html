@@ -10,19 +10,27 @@
   <header>
     <img src="images/raasystem-logo.png" alt="Raasystem Logo" width="120">
     <h1>Raasystem Documentation</h1>
-    <button id="theme-toggle">🌙</button>
+    <button id="theme-toggle" title="Toggle dark/light theme">🌙</button>
+    <select id="version-selector" title="Select documentation version"></select>
   </header>
 
   <div class="container">
-    <aside class="toc"></aside>
+    <aside class="toc" id="toc">
+      <!-- Table of Contents will be dynamically inserted -->
+    </aside>
+
     <main class="content">
+      <section id="search">
+        <input type="text" id="doc-search" placeholder="Search docs..." />
+      </section>
+
       <section id="overview">
         <h2>Overview</h2>
         <p>Welcome to Raasystem! Explore our ecosystem, smart contracts, and APIs.</p>
       </section>
 
       <section id="features">
-        <h2>Features</h2>
+        <h2>Key Features</h2>
         <ul>
           <li>AI-driven trading engine</li>
           <li>Tokenomics and smart contracts</li>
@@ -40,6 +48,10 @@
     </main>
   </div>
 
+  <script src="components/theme-toggle.js"></script>
+  <script src="components/toc.js"></script>
+  <script src="components/search.js"></script>
+  <script src="components/versioning.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
