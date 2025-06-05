@@ -1,44 +1,95 @@
-:root {
-  --bg-light: #ffffff;
-  --bg-dark: #121212;
-  --text-light: #f1f1f1;
-  --text-dark: #121212;
-  --primary-color: #000000;
-  --accent-color: #d4af37;
+/* Global Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background-color: var(--bg-light);
-  color: var(--text-dark);
-}
-
-.dark-mode {
-  background-color: var(--bg-dark);
-  color: var(--text-light);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #0A0A0A; /* Deep Black */
+  color: #FDF5E6; /* Light Gold/White */
+  line-height: 1.6;
 }
 
 header {
-  background-color: var(--primary-color);
-  color: var(--accent-color);
-  padding: 1rem;
-  text-align: center;
+  background-color: #121212; /* Rich Charcoal Black */
+  color: #FFD700;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  border-bottom: 2px solid #FFD700;
 }
 
-.toc {
-  position: fixed;
-  top: 100px;
-  left: 10px;
-  width: 200px;
+header h1 {
+  font-size: 1.8rem;
+  font-weight: bold;
 }
 
-.content {
-  margin-left: 220px;
-  padding: 1rem;
+#theme-toggle {
+  background: transparent;
+  border: 2px solid #FFD700;
+  border-radius: 6px;
+  color: #FFD700;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.3s ease;
+}
+
+#theme-toggle:hover {
+  background: linear-gradient(45deg, #FFD700, #FFA500);
+  color: #0A0A0A;
+}
+
+.container {
+  display: flex;
+  padding: 2rem;
+}
+
+aside.toc {
+  width: 250px;
+  margin-right: 2rem;
+  border-right: 1px solid #444;
+  padding-right: 1rem;
+  color: #FFD700;
+}
+
+aside.toc ul {
+  list-style: none;
+}
+
+aside.toc li {
+  margin-bottom: 1rem;
+}
+
+aside.toc a {
+  color: #FFD700;
+  text-decoration: none;
+}
+
+aside.toc a:hover {
+  text-decoration: underline;
+}
+
+main.content {
+  flex: 1;
+  max-width: 800px;
+}
+
+main h2 {
+  border-bottom: 2px solid #FFD700;
+  margin-top: 2rem;
+  padding-bottom: 0.5rem;
+  color: #FFD700;
+}
+
+ul {
+  margin-left: 1.5rem;
 }
 
 video {
-  border: 2px solid var(--accent-color);
-  border-radius: 8px;
+  border: 2px solid #FFD700;
+  border-radius: 10px;
 }
