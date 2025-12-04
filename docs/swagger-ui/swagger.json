@@ -1,0 +1,137 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Raasystem Backend API",
+    "version": "1.0.0",
+    "description": "Unified API powering RaasBridge, Raaspay, Raaswallet, RAAS, RBT, and the Full Market Data Suite (ICE)."
+  },
+  "servers": [
+    { "url": "http://localhost:8000", "description": "Local Development Server" },
+    { "url": "https://api.raasystem.io", "description": "Production Server" }
+  ],
+  "paths": {
+    "/api/raaswallet/balance": {
+      "get": { "summary": "Get wallet balance", "responses": { "200": { "description": "Balance retrieved" } } }
+    },
+    "/api/raaswallet/transfer": {
+      "post": {
+        "summary": "Transfer funds between wallets",
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "$ref": "#/components/schemas/Transfer" } }
+        },
+        "responses": { "200": { "description": "Transfer successful" } }
+      }
+    },
+    "/api/rbt/balance": {
+      "get": { "summary": "Get RBT balance", "responses": { "200": { "description": "Balance retrieved" } } }
+    },
+    "/api/rbt/transfer": {
+      "post": {
+        "summary": "Transfer RBT",
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "$ref": "#/components/schemas/Transfer" } }
+        },
+        "responses": { "200": { "description": "RBT transfer successful" } }
+      }
+    },
+    "/api/rbt/supply": {
+      "get": { "summary": "Get total RBT supply", "responses": { "200": { "description": "Supply retrieved" } } }
+    },
+    "/api/rbt/price": {
+      "get": { "summary": "Get RBT live price", "responses": { "200": { "description": "Price retrieved" } } }
+    },
+    "/api/raaspay/transfer": {
+      "post": {
+        "summary": "Send payment through Raaspay",
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "$ref": "#/components/schemas/Transfer" } }
+        },
+        "responses": { "200": { "description": "Payment successful" } }
+      }
+    },
+    "/api/xrp/transfer": {
+      "post": {
+        "summary": "Send XRP",
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "$ref": "#/components/schemas/Transfer" } }
+        },
+        "responses": { "200": { "description": "XRP transfer successful" } }
+      }
+    },
+    "/api/usdt/transfer": {
+      "post": {
+        "summary": "Send USDT",
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "$ref": "#/components/schemas/Transfer" } }
+        },
+        "responses": { "200": { "description": "USDT transfer successful" } }
+      }
+    },
+    "/api/raas/price": {
+      "get": { "summary": "Get RAAS live price", "responses": { "200": { "description": "Price retrieved" } } }
+    },
+    "/api/raas/mint": {
+      "post": { "summary": "Mint RAAS backed by gold", "responses": { "201": { "description": "RAAS minted" } } }
+    },
+    "/api/raas/burn": {
+      "post": { "summary": "Burn RAAS to redeem gold", "responses": { "200": { "description": "RAAS burned" } } }
+    },
+    "/api/arbitrage/signals": {
+      "get": { "summary": "Get latest arbitrage signals from RaasGenAI", "responses": { "200": { "description": "Signals retrieved" } } }
+    },
+    "/api/ice/markets": {
+      "get": { "summary": "Get all market data", "responses": { "200": { "description": "Market data retrieved" } } }
+    },
+    "/api/ice/ticker": {
+      "get": {
+        "summary": "Get last, bid, ask for a symbol",
+        "parameters": [
+          { "name": "symbol", "in": "query", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": { "200": { "description": "Ticker data retrieved" } }
+      }
+    },
+    "/api/ice/orderbook": {
+      "get": {
+        "summary": "Get orderbook depth levels",
+        "parameters": [
+          { "name": "symbol", "in": "query", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": { "200": { "description": "Orderbook data retrieved" } }
+      }
+    },
+    "/api/ice/commodities": {
+      "get": { "summary": "Get filtered commodities", "responses": { "200": { "description": "Commodity data retrieved" } } }
+    },
+    "/api/ice/stocks": {
+      "get": { "summary": "Get filtered stocks", "responses": { "200": { "description": "Stock data retrieved" } } }
+    },
+    "/api/ice/forex": {
+      "get": { "summary": "Get filtered forex", "responses": { "200": { "description": "FX data retrieved" } } }
+    },
+    "/api/raasmatrix/heatmap": {
+      "get": { "summary": "Get market heatmap (GIS)", "responses": { "200": { "description": "Heatmap retrieved" } } }
+    },
+    "/api/raasmatrix/analytics": {
+      "get": { "summary": "Get predictive analytics data", "responses": { "200": { "description": "Analytics retrieved" } } }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Transfer": {
+        "type": "object",
+        "properties": {
+          "fromWallet": { "type": "string" },
+          "toWallet": { "type": "string" },
+          "amount": { "type": "number" },
+          "network": { "type": "string", "example": "XRP or USDT" }
+        }
+      }
+    }
+  }
+}
