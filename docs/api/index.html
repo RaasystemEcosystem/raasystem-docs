@@ -9,11 +9,12 @@
     body {
       margin: 0;
       padding: 0;
-      height: 100vh;
       font-family: 'Segoe UI', sans-serif;
       display: flex;
       flex-direction: column;
+      min-height: 100vh;
     }
+
     header {
       background-color: #1f2937;
       color: #ffffff;
@@ -24,6 +25,7 @@
     }
     header h1 { margin: 0; font-size: 1.8rem; }
     header p { margin: 0.3rem 0 0 0; font-size: 1rem; color: #cbd5e1; }
+
     .server-controls {
       margin-top: 0.8rem;
       display: flex;
@@ -41,7 +43,61 @@
     .server-controls button { background-color: #3b82f6; color: #fff; }
     .server-controls button:hover { background-color: #2563eb; }
     .server-controls select { background-color: #ffffff; color: #000; }
-    #swagger-ui { flex: 1; }
+
+    /* Cards Section */
+    .card-section {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      padding: 1rem 2rem;
+      background-color: #f3f4f6;
+    }
+    .card {
+      background-color: #ffffff;
+      border-radius: 1rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 1.5rem;
+      flex: 1 1 200px;
+      min-width: 200px;
+      text-align: center;
+      text-decoration: none;
+      color: #000;
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    }
+    .card h2 { margin-bottom: 0.5rem; font-size: 1.25rem; color: #1f2937; }
+    .card p { font-size: 0.95rem; color: #4b5563; }
+
+    /* Swagger UI */
+    #swagger-ui { flex: 1; min-height: 70vh; }
+
+    /* Back to Top Button */
+    #back-to-top {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #3b82f6;
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
+      font-size: 24px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      z-index: 1000;
+    }
+    #back-to-top:hover {
+      background-color: #2563eb;
+      transform: translateY(-2px);
+    }
   </style>
 </head>
 <body>
@@ -56,7 +112,30 @@
     </div>
   </header>
 
+  <!-- Cards Section -->
+  <section class="card-section">
+    <a class="card" href="./index.html" target="_blank">
+      <h2>Overview</h2>
+      <p>Learn about the Raasystem ecosystem, architecture, and core concepts.</p>
+    </a>
+    <a class="card" href="./index.html#features" target="_blank">
+      <h2>Features</h2>
+      <p>Discover AI-driven trading, tokenomics, cross-border payments, and more.</p>
+    </a>
+    <a class="card" href="./index.html#intro-video" target="_blank">
+      <h2>Intro Video</h2>
+      <p>Watch an overview of Raasystem in action and understand its capabilities.</p>
+    </a>
+    <a class="card" href="#swagger-ui">
+      <h2>API Docs</h2>
+      <p>Scroll down to explore the Swagger UI for all backend endpoints.</p>
+    </a>
+  </section>
+
   <div id="swagger-ui"></div>
+
+  <!-- Back to Top Button -->
+  <button id="back-to-top" title="Back to Top">↑</button>
 
   <script src="./swagger-assets/swagger-ui-bundle.js"></script>
   <script src="./swagger-assets/swagger-ui-standalone-preset.js"></script>
@@ -91,37 +170,9 @@
       window.ui = swaggerUIInstance;
     }
 
-    function isPrivateIP(ip) {
-      return /^192\.168\.\d{1,3}\.\d{1,3}$/.test(ip) ||
-             /^10\.\d{1,3}\.\d{1,3}\.\d{1,3}$/.test(ip) ||
-             /^172\.(1[6-9]|2\d|3[0-1])\.\d{1,3}\.\d{1,3}$/.test(ip);
-    }
-
-    function detectLocalIPs(callback) {
-      const RTCPeerConnection = window.RTCPeerConnection || window.webkitRTCPeerConnection || window.mozRTCPeerConnection;
-      if (!RTCPeerConnection) return;
-
-      const ips = new Set();
-      const pc = new RTCPeerConnection({ iceServers: [] });
-      pc.createDataChannel("");
-      pc.createOffer().then(offer => pc.setLocalDescription(offer));
-      pc.onicecandidate = function(event) {
-        if (!event || !event.candidate) return;
-        const ipMatch = /([0-9]{1,3}(\.[0-9]{1,3}){3})/.exec(event.candidate.candidate);
-        if (ipMatch) {
-          const ip = ipMatch[1];
-          if (isPrivateIP(ip) && !ips.has(ip)) {
-            ips.add(ip);
-            callback(ip);
-          }
-        }
-      };
-    }
-
     const selector = document.getElementById('server-selector');
     const defaultServers = ['127.0.0.1:8080', 'localhost:8080'];
 
-    // Add default servers
     defaultServers.forEach(addr => {
       const option = document.createElement('option');
       option.value = `http://${addr}`;
@@ -129,23 +180,20 @@
       selector.appendChild(option);
     });
 
-    // Initialize Swagger with the first default server
     initSwagger(selector.value);
 
-    // Detect local network IPs dynamically
-    detectLocalIPs(ip => {
-      const option = document.createElement('option');
-      option.value = `http://${ip}:8080`;
-      option.textContent = `${ip}:8080`;
-      selector.appendChild(option);
-      selector.value = `http://${ip}:8080`;
-      initSwagger(selector.value);
-    });
-
-    // Event listeners
     selector.addEventListener('change', e => initSwagger(e.target.value));
     document.getElementById('copy-server').addEventListener('click', () => copyToClipboard(selector.value));
     document.getElementById('open-server').addEventListener('click', () => openInBrowser(selector.value));
+
+    // Back to Top
+    const backToTop = document.getElementById('back-to-top');
+    window.addEventListener('scroll', () => {
+      backToTop.style.display = (window.scrollY > 300) ? 'flex' : 'none';
+    });
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
   </script>
 </body>
 </html>

@@ -5,18 +5,160 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Raasystem Documentation</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Base Styles */
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #ffffff;
+      color: #1f2937;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    body.dark {
+      background-color: #111827;
+      color: #f3f4f6;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      background-color: #1f2937;
+      color: #ffffff;
+    }
+    header img { width: 120px; }
+    header h1 { margin: 0 1rem; font-size: 1.8rem; }
+    header button, header select {
+      margin-left: 0.5rem;
+      padding: 0.4rem 0.8rem;
+      font-size: 0.9rem;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+    }
+    header button { background-color: #3b82f6; color: #fff; }
+    header button:hover { background-color: #2563eb; }
+
+    /* Layout */
+    .container { display: flex; flex-direction: row; min-height: calc(100vh - 80px); }
+
+    /* Sticky Sidebar */
+    .toc {
+      flex: 0 0 220px;
+      padding: 1rem;
+      background-color: #000000; /* Always black */
+      color: #ffffff;
+      position: sticky;
+      top: 0;
+      height: calc(100vh - 80px);
+      overflow-y: auto;
+    }
+    .toc ul { list-style: none; padding-left: 0; }
+    .toc li {
+      padding: 0.5rem 0.75rem;
+      cursor: pointer;
+      color: #ffffff;
+      border-radius: 6px;
+      transition: all 0.3s;
+    }
+    .toc li:hover { text-decoration: underline; }
+    .toc li.selected {
+      background-color: #FFD700; /* Gold background for selected */
+      color: #000000; /* Black font */
+    }
+
+    main.content { flex: 1; padding: 2rem; }
+
+    /* Section Titles */
+    section h2 {
+      border-bottom: 2px solid #3b82f6;
+      padding-bottom: 0.3rem;
+      margin-bottom: 1rem;
+      color: #1f2937; /* Light mode */
+    }
+    body.dark section h2 { color: #f3f4f6; }
+
+    /* Feature Cards */
+    .card-section {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+    .feature-card {
+      flex: 1 1 250px;
+      background-color: #ffffff;
+      padding: 1rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: transform 0.2s, box-shadow 0.2s, background-color 0.3s;
+      text-decoration: none;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+    }
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    }
+    body.dark .feature-card { background-color: #1f2937; }
+    .feature-card h3 { margin: 0 0 0.5rem 0; color: #1f2937; font-size: 1.25rem; }
+    .feature-card p { color: #4b5563; font-size: 0.95rem; }
+    body.dark .feature-card h3 { color: #FFD700; }
+    body.dark .feature-card p { color: #f3f4f6; }
+
+    /* Blue link cards with arrow */
+    .feature-card.link-card {
+      background-color: #3b82f6;
+      color: #ffffff;
+    }
+    .feature-card.link-card h3, .feature-card.link-card p { color: #ffffff; }
+    .feature-card.link-card::after {
+      content: "→";
+      font-size: 1.5rem;
+      align-self: flex-end;
+      margin-top: auto;
+    }
+
+    /* Video Section */
+    video { width: 100%; border-radius: 12px; margin-top: 1rem; }
+
+    /* Search */
+    #doc-search {
+      width: 100%;
+      padding: 0.5rem;
+      border-radius: 6px;
+      border: 1px solid #d1d5db;
+      margin-bottom: 2rem;
+    }
+    body.dark #doc-search {
+      background-color: #374151;
+      color: #f3f4f6;
+      border: 1px solid #4b5563;
+    }
+  </style>
 </head>
 <body>
   <header>
-    <img src="images/raasystem-logo.png" alt="Raasystem Logo" width="120">
-    <h1>Raasystem Documentation</h1>
-    <button id="theme-toggle" title="Toggle dark/light theme">🌙</button>
-    <select id="version-selector" title="Select documentation version"></select>
+    <div style="display:flex; align-items:center;">
+      <img src="images/raasystem-logo.png" alt="Raasystem Logo">
+      <h1>Raasystem Documentation</h1>
+    </div>
+    <div>
+      <button id="theme-toggle" title="Toggle dark/light theme">🌙</button>
+      <select id="version-selector" title="Select documentation version"></select>
+    </div>
   </header>
 
   <div class="container">
     <aside class="toc" id="toc">
-      <!-- Table of Contents will be dynamically inserted -->
+      <ul>
+        <li class="selected" onclick="selectItem(this);document.getElementById('overview').scrollIntoView()">Overview</li>
+        <li onclick="selectItem(this);document.getElementById('features').scrollIntoView()">Key Features</li>
+        <li onclick="selectItem(this);document.getElementById('video').scrollIntoView()">Watch Intro Video</li>
+        <li onclick="selectItem(this);window.open('http://raasystem-api.s3-website-us-west-2.amazonaws.com/#/default:', '_blank')">Live API</li>
+      </ul>
     </aside>
 
     <main class="content">
@@ -31,16 +173,34 @@
 
       <section id="features">
         <h2>Key Features</h2>
-        <ul>
-          <li>AI-driven trading engine</li>
-          <li>Tokenomics and smart contracts</li>
-          <li>Cross-border payments and Raaskoin integration</li>
-        </ul>
+        <div class="card-section">
+          <a class="feature-card" href="#trading-engine">
+            <h3>AI-driven Trading Engine</h3>
+            <p>Automated trading powered by RaasGenAI insights and analytics.</p>
+          </a>
+          <a class="feature-card" href="#smart-contracts">
+            <h3>Smart Contracts & Tokenomics</h3>
+            <p>Fully audited RAAS and RBT contracts with token economics.</p>
+          </a>
+          <a class="feature-card" href="#payments">
+            <h3>Cross-Border Payments</h3>
+            <p>Seamless payments via Raaspay and Raaskoin integration.</p>
+          </a>
+          <!-- Blue link cards -->
+          <a class="feature-card link-card" href="http://raasystem-api.s3-website-us-west-2.amazonaws.com/#/default:" target="_blank">
+            <h3>Live API</h3>
+            <p>Explore all backend endpoints with Swagger UI.</p>
+          </a>
+          <a class="feature-card link-card" href="#video">
+            <h3>Watch Intro Video</h3>
+            <p>Overview of Raasystem in action.</p>
+          </a>
+        </div>
       </section>
 
       <section id="video">
         <h2>Watch Intro Video</h2>
-        <video controls width="100%">
+        <video controls>
           <source src="videos/onboarding-video.mp4" type="video/mp4">
           Your browser does not support the video tag.
         </video>
@@ -48,7 +208,17 @@
     </main>
   </div>
 
-  <script src="components/theme-toggle.js"></script>
+  <script>
+    const toggleBtn = document.getElementById('theme-toggle');
+    toggleBtn.addEventListener('click', () => {
+      document.body.classList.toggle('dark');
+    });
+
+    function selectItem(el) {
+      document.querySelectorAll('.toc li').forEach(li => li.classList.remove('selected'));
+      el.classList.add('selected');
+    }
+  </script>
   <script src="components/toc.js"></script>
   <script src="components/search.js"></script>
   <script src="components/versioning.js"></script>
